@@ -11,8 +11,8 @@ namespace B16_Ex02
         public int GetNextMove(GameBoard i_GameBoard)
         {
             int indexChosen = -1;
-            root = new TreeNode<GameBoard>(i_GameBoard,0);
-            buildDesicionsTree(root,3,true); // TODO: change 5 to constant depth which will be decided later
+            root = new TreeNode<GameBoard>(i_GameBoard, 0);
+            buildDesicionsTree(root, 3, true); // TODO: change 5 to constant depth which will be decided later
             int bestValue = minMax(root, 3, true);
 
             foreach (TreeNode<GameBoard> tNode in root.Children)
@@ -26,7 +26,7 @@ namespace B16_Ex02
             return indexChosen;
         }
 
-        private void buildDesicionsTree(TreeNode<GameBoard> root, int depth,bool io_IsComputerPlaying)
+        private void buildDesicionsTree(TreeNode<GameBoard> root, int depth, bool io_IsComputerPlaying)
         {
             GameBoard.eBoardSquare eBoard = io_IsComputerPlaying ? GameBoard.eBoardSquare.Player2Square : GameBoard.eBoardSquare.Player1Square;
             if (!root.Data.BoardStatus.Equals(GameBoard.eBoardStatus.NextPlayerCanPlay) || depth == 0)
@@ -48,7 +48,7 @@ namespace B16_Ex02
             }
             foreach (TreeNode<GameBoard> childNode in root.Children)
             {
-                buildDesicionsTree(childNode, depth - 1,!io_IsComputerPlaying);
+                buildDesicionsTree(childNode, depth - 1, !io_IsComputerPlaying);
             }
         }
 
@@ -58,7 +58,7 @@ namespace B16_Ex02
             int bestValue;
             if (!root.Data.BoardStatus.Equals(GameBoard.eBoardStatus.NextPlayerCanPlay) || depth == 0)
             { // if game is in terminal state or no more tree levels
-                return calculateScoreForResult(root.Data,maximizing);
+                return calculateScoreForResult(root.Data, maximizing);
             }
             if (maximizing == true)
             {
@@ -90,17 +90,17 @@ namespace B16_Ex02
         private int calculateScoreForResult(GameBoard i_BoardData, bool i_IsComputerTurn)
         {
             int score = 0;
-                if (i_BoardData.BoardStatus.Equals(GameBoard.eBoardStatus.PlayerWon))
+            if (i_BoardData.BoardStatus.Equals(GameBoard.eBoardStatus.PlayerWon))
+            {
+                if (i_IsComputerTurn == true)
                 {
-                    if (i_IsComputerTurn == true)
-                    {
-                        score = 1;
-                    }
-                    else
-                    {
-                        score = -1;
-                    }
+                    score = 1;
                 }
+                else
+                {
+                    score = -1;
+                }
+            }
             return score;
         }
     }
